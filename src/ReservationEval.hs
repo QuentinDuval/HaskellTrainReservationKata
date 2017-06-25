@@ -29,6 +29,10 @@ evalReservation spi = evalCmd
     evalCmd (GetTypology trainId) = getTypologyOf spi trainId
     evalCmd (Reserve command) = confirmCommand spi command
 
+--------------------------------------------------------------------------------
+-- Interpreter for simulation (State Monad)
+--------------------------------------------------------------------------------
+
 -- type AppLens a b = forall f. Applicative f => (b -> f b) -> (a -> f a)
 
 tryReserve :: Map.Map TrainId TrainTypology -> Reservation -> Maybe (Map.Map TrainId TrainTypology)
@@ -57,3 +61,11 @@ evalStateReservation = evalCmd
         Just newTrains -> do
           put newTrains
           pure (Just command)
+
+
+--------------------------------------------------------------------------------
+-- Interpreter printing the instructions and branches?
+--------------------------------------------------------------------------------
+
+evalPrint :: ReservationExpr ty -> IO ty
+evalPrint = undefined
