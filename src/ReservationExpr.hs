@@ -76,5 +76,15 @@ instance Applicative ReservationExpr where
   fExpr <*> aExpr = fExpr >>= \f -> fmap f aExpr
 
 instance Monad ReservationExpr where
-  return = pure
   (>>=) = Bind
+
+{-
+-- TODO: it should be an interpreter instead (bind cannot work)
+instance (Show a) => Show (ReservationExpr a) where
+  show (SearchTrain dateTime) = "{SearchTrain, at date: " ++ show dateTime ++ "}"
+  show (GetTypology trainId) = "{GetTypology, of train: " ++ show trainId ++ "}"
+  show (Reserve reservation) = "{TryReserve, reservation: " ++ show reservation ++ "}"
+  show (Log string) = "{Log message: " ++ string ++ "}"
+  show (Pure val) = show val
+  show (Bind cmd next) = "{Bind result to next expression}"
+-}
