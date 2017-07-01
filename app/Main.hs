@@ -2,7 +2,7 @@ module Main where
 
 import Control.Monad (when)
 import qualified Data.Map as Map
-import ReservationApi
+import qualified ReservationApi
 import ReservationEval
 import ReservationExpr
 
@@ -25,10 +25,15 @@ fakeTrainDB = FakeSPI $ Map.fromList $
   , ("T3", trainTypology [("A", coachTypology 100 [20..100]), ("B", coachTypology 100 [1..100])]) -- Plenty of places
   ]
 
+--------------------------------------------------------------------------------
+-- Wrapper around the production interpreter
+--------------------------------------------------------------------------------
+
+reserve :: ReservationRequest -> IO ReservationResult
+reserve = evalReservation fakeTrainDB . ReservationApi.reserve
+
 sendReservation :: Int -> IO ()
-sendReservation seatCount = do
-  result <- evalReservation fakeTrainDB $ reserve (ReservationRequest seatCount 10)
-  print result
+sendReservation seatCount = print =<< reserve (ReservationRequest seatCount 10)
 
 main :: IO ()
 main = do

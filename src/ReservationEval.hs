@@ -10,7 +10,7 @@ import qualified Data.Set as Set
 import ReservationExpr
 
 --------------------------------------------------------------------------------
--- Interpreter: Transformation from the abstract problem to real world (fake one here)
+-- Interpreter: Transformation from the abstract problem to real world
 --------------------------------------------------------------------------------
 
 class SPI spi where
@@ -28,6 +28,8 @@ evalReservation spi = evalCmd
     evalCmd (SearchTrain time) = searchTrainAt spi time
     evalCmd (GetTypology trainId) = getTypologyOf spi trainId
     evalCmd (Reserve command) = confirmCommand spi command
+
+
 
 --------------------------------------------------------------------------------
 -- Interpreter for simulation (State Monad)
